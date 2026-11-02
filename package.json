@@ -1,0 +1,43 @@
+{
+  "name": "brian-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit && npm --prefix admin run typecheck",
+    "lint": "npm --prefix admin run lint",
+    "format": "npm --prefix admin run format",
+    "format:check": "npm --prefix admin run format:check",
+    "admin:build": "npm --prefix admin run build",
+    "vercel-build": "npm run db:generate && npm run build && npm run admin:build",
+    "dev": "tsx watch src/index.ts",
+    "dev:all": "concurrently --kill-others-on-fail \"npm run dev\" \"npm run admin:dev\"",
+    "admin:dev": "npm --prefix admin run dev",
+    "start": "node dist/index.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --name create_annotations",
+    "r2:check": "tsx src/scripts/checkR2.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.901.0",
+    "@aws-sdk/s3-request-presigner": "^3.901.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "ffmpeg-static": "^5.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "@prisma/client": "^6.16.2",
+    "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.3.0",
+    "eslint": "^9.35.0",
+    "concurrently": "^9.2.1",
+    "prisma": "^6.16.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

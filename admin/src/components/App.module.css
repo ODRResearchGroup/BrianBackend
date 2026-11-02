@@ -1,0 +1,44 @@
+.page {
+  width: min(100%, 1248px);
+  margin: 0 auto;
+  padding: 0 24px 72px;
+}
+
+.content {
+  padding: 16px max(24px, calc((100vw - 1200px) / 2));
+  margin: 0 calc(max(24px, calc((1200px - 100vw) / 2)));
+}
+
+.resultCount,
+.error,
+.empty,
+.center {
+  color: var(--muted);
+}
+
+.resultCount {
+  font-size: 13px;
+  margin: 24px 2px 12px;
+}
+
+.error {
+  color: var(--red);
+  font-size: 14px;
+}
+
+.empty,
+.center {
+  padding: 40px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding-inline: 16px;
+  }
+
+  .content {
+    padding-inline: 0;
+    margin-inline: 0;
+  }
+}

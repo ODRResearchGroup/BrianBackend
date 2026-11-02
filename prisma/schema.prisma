@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Annotation {
+  id            String            @id
+  deviceName    String?
+  smellWalkId   String?
+  title         String            @default("")
+  note          String            @default("")
+  sensorReadings Json              @default("{}")
+  latitude      Float?
+  longitude     Float?
+  photo         String?
+  audio         String?
+  timestamp     DateTime
+
+  @@index([timestamp])
+  @@index([smellWalkId])
+  @@map("annotations")
+}

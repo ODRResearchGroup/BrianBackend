@@ -1,0 +1,68 @@
+.shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(100%, 440px);
+  padding: 34px;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  border-radius: 16px;
+}
+
+.card label {
+  display: block;
+  margin: 16px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(var(--fgRgb), 0.8);
+}
+
+.card input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 12px;
+  border: 1px solid rgba(var(--fgRgb), 0.14);
+  border-radius: 10px;
+  background: rgba(var(--bgRgb), 0.35);
+  color: var(--fg);
+  outline: none;
+}
+
+.card input:focus {
+  border-color: rgba(var(--greenRgb), 0.7);
+}
+
+.card button {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.primary {
+  background: var(--green) !important;
+  color: var(--bg) !important;
+  border-color: var(--green) !important;
+}
+
+.primary:hover {
+  background: #70d68c !important;
+}
+
+.error {
+  color: var(--red);
+  font-size: 14px;
+}
+
+@media (prefers-color-scheme: light) {
+  .card {
+    background: rgba(var(--fgRgb), 0.045);
+  }
+
+  .card input {
+    background: rgba(var(--bgRgb), 0.5);
+  }
+}

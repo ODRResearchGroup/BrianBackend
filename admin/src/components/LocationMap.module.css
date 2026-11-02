@@ -1,0 +1,16 @@
+.container {
+  z-index: 1;
+  height: 100%;
+}
+
+.map {
+  min-height: 240px;
+  height: 85%;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.coordinates {
+  font-size: 13px;
+  color: var(--muted);
+}

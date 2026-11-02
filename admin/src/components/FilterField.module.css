@@ -1,0 +1,27 @@
+.field {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(var(--fgRgb), 0.8);
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 12px;
+  border: 1px solid rgba(var(--fgRgb), 0.14);
+  border-radius: 10px;
+  background: rgba(var(--bgRgb), 0.35);
+  color: var(--fg);
+  outline: none;
+}
+
+.field input:focus {
+  border-color: rgba(var(--greenRgb), 0.7);
+}
+
+@media (prefers-color-scheme: light) {
+  .field input {
+    background: rgba(var(--bgRgb), 0.5);
+  }
+}
