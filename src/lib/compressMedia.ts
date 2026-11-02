@@ -14,7 +14,12 @@ export type CompressedMedia = {
   extension: "webp" | "m4a";
 };
 
-const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/heic"]);
+const IMAGE_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+]);
 const AUDIO_TYPES = new Set([
   "audio/aac",
   "audio/m4a",
@@ -65,8 +70,8 @@ async function encodeImage(input: Buffer): Promise<Buffer> {
   return sharp(input)
     .rotate()
     .resize({
-      width: 2048,
-      height: 2048,
+      width: 1024,
+      height: 1024,
       fit: "inside",
       withoutEnlargement: true,
     })
@@ -126,7 +131,7 @@ async function compressAudio(input: Buffer): Promise<CompressedMedia> {
       "-c:a",
       "aac",
       "-b:a",
-      "64k",
+      "96k",
       "-movflags",
       "+faststart",
       outputPath,
