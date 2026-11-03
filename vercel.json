@@ -1,18 +1,53 @@
 {
-  "version": 2,
-  "buildCommand": "npm run vercel-build",
-  "outputDirectory": "admin/dist",
-  "functions": {
-    "api/index.ts": {
-      "maxDuration": 60,
-      "memory": 1024
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "api": {
+      "root": ".",
+      "framework": "express",
+      "buildCommand": "npm run vercel-build"
+    },
+    "admin": {
+      "root": "admin",
+      "framework": "vite",
+      "buildCommand": "npm run build"
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.ts" },
-    { "source": "/admin/api/(.*)", "destination": "/api/index.ts" },
-    { "source": "/health", "destination": "/api/index.ts" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/assets/(.*)", "destination": "/assets/$1" }
+    {
+      "source": "/admin/api/(.*)",
+      "destination": {
+        "service": "api"
+      }
+    },
+    {
+      "source": "/admin",
+      "destination": {
+        "service": "admin"
+      }
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": {
+        "service": "admin"
+      }
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": {
+        "service": "api"
+      }
+    },
+    {
+      "source": "/health",
+      "destination": {
+        "service": "api"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "api"
+      }
+    }
   ]
 }
