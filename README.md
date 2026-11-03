@@ -36,6 +36,7 @@ The admin UI is a Vite React app in `admin/`. Use `npm --prefix admin run dev`
 for frontend development; its `/admin/api` requests proxy to the backend on
 port 3001. In Vercel, the admin UI is deployed as the separate `admin`
 service, while `/admin/api` is routed to the `api` service.
+The admin service explicitly publishes its Vite output from `admin/dist`.
 
 ## Vercel deployment
 
