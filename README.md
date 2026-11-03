@@ -34,13 +34,16 @@ JWT and the admin browser session are separate authentication mechanisms.
 
 The admin UI is a Vite React app in `admin/`. Use `npm --prefix admin run dev`
 for frontend development; its `/admin/api` requests proxy to the backend on
-port 3001. Production uses the built `admin/dist` files served by the backend.
+port 3001. In Vercel, the admin UI is deployed as the separate `admin`
+service, while `/admin/api` is routed to the `api` service.
 
 ## Vercel deployment
 
 This project includes a Vercel serverless entrypoint in `api/index.ts` and
 `vercel.json`. Import the repository into Vercel with the repository root as
-the project root; Vercel will run `npm run vercel-build`. Configure every
+the project root. Vercel builds the API and admin services independently: the
+API service runs `npm run vercel-build`, while the admin service runs its Vite
+build. Configure every
 variable from `.env.example` in the Vercel project settings, including
 `DATABASE_URL`, `JWT_SECRET`, the admin credentials, and the R2 credentials.
 Set `BACKEND_PUBLIC_URL` to the deployed Vercel URL, for example

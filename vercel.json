@@ -4,7 +4,14 @@
     "api": {
       "root": ".",
       "framework": "express",
-      "buildCommand": "npm run vercel-build"
+      "entrypoint": "api/index.ts",
+      "buildCommand": "npm run vercel-build",
+      "functions": {
+        "api/index.ts": {
+          "maxDuration": 60,
+          "memory": 1024
+        }
+      }
     },
     "admin": {
       "root": "admin",
@@ -39,12 +46,6 @@
     },
     {
       "source": "/health",
-      "destination": {
-        "service": "api"
-      }
-    },
-    {
-      "source": "/(.*)",
       "destination": {
         "service": "api"
       }
