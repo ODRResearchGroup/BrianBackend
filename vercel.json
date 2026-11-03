@@ -19,6 +19,13 @@
       "buildCommand": "npm run build"
     }
   },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/admin",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/admin/api/(.*)",
@@ -29,13 +36,15 @@
     {
       "source": "/admin",
       "destination": {
-        "service": "admin"
+        "service": "admin",
+        "path": "/"
       }
     },
     {
       "source": "/admin/(.*)",
       "destination": {
-        "service": "admin"
+        "service": "admin",
+        "path": "/$1"
       }
     },
     {

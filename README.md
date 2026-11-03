@@ -54,6 +54,7 @@ The deployed URLs are:
 
 - API: `https://your-project.vercel.app/api/...`
 - Admin: `https://your-project.vercel.app/admin`
+- Root: redirects to `/admin`
 
 The mobile API keeps InfluxDB credentials server-side. React Native clients
 authenticate with a short-lived app session from `POST /api/session`.
