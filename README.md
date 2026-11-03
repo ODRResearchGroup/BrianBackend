@@ -6,7 +6,8 @@ Small media upload API for BrianReactNative. It compresses annotation media befo
 
 1. Install Node.js 20+ and run `npm install`.
 2. Copy `.env.example` to `.env`.
-3. Set `DATABASE_URL`, `JWT_SECRET`, `BACKEND_PUBLIC_URL`, and the R2 S3 API credentials.
+3. Set `DATABASE_URL`, `JWT_SECRET`, `BACKEND_PUBLIC_URL`, the InfluxDB
+   credentials, and the R2 S3 API credentials.
 4. Create an R2 bucket named `brian-media` (or set `R2_BUCKET_NAME`).
 5. Run `npm run db:migrate`, `npm run admin:build`, `npm run build`, and `npm start`.
 
@@ -50,6 +51,9 @@ The deployed URLs are:
 
 - API: `https://your-project.vercel.app/api/...`
 - Admin: `https://your-project.vercel.app/admin`
+
+The mobile API keeps InfluxDB credentials server-side. React Native clients
+authenticate with a short-lived app session from `POST /api/session`.
 
 Vercel functions are not persistent servers. The local `npm run dev:all`
 workflow remains for development, while Vercel invokes the API function per

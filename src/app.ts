@@ -4,6 +4,7 @@ import path from "node:path";
 import annotationRoutes from "./routes/annotations.js";
 import mediaRoutes from "./routes/media.js";
 import adminRoutes from "./routes/admin.js";
+import mobileRoutes from "./routes/mobile.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/health", (_req, res) => res.json({ ok: true }));
 app.use("/api", mediaRoutes);
 app.use("/api", annotationRoutes);
+app.use("/api", mobileRoutes);
 app.use(adminRoutes);
 app.use("/admin", express.static(path.join(process.cwd(), "admin", "dist")));
 app.get("/admin/*splat", (_req, res) => {
