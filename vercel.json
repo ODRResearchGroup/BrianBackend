@@ -38,7 +38,14 @@
       "source": "/admin",
       "destination": {
         "service": "admin",
-        "path": "/"
+        "path": "/index.html"
+      }
+    },
+    {
+      "source": "/admin/",
+      "destination": {
+        "service": "admin",
+        "path": "/index.html"
       }
     },
     {
