@@ -37,8 +37,8 @@ for frontend development; its `/admin/api` requests proxy to the backend on
 port 3001. In Vercel, the admin UI is deployed as the separate `admin`
 service, while `/admin/api` is routed to the `api` service.
 The admin service explicitly publishes its Vite output from `admin/dist`.
-The `/admin` and `/admin/` entry routes target the generated `index.html`
-explicitly; nested admin asset paths are routed to their matching paths.
+The admin build places its output under `dist/admin` so the service's original
+`/admin` request path maps directly to the generated `index.html`.
 
 ## Vercel deployment
 

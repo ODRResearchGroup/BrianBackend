@@ -37,22 +37,19 @@
     {
       "source": "/admin",
       "destination": {
-        "service": "admin",
-        "path": "/index.html"
+        "service": "admin"
       }
     },
     {
       "source": "/admin/",
       "destination": {
-        "service": "admin",
-        "path": "/index.html"
+        "service": "admin"
       }
     },
     {
       "source": "/admin/(.*)",
       "destination": {
-        "service": "admin",
-        "path": "/$1"
+        "service": "admin"
       }
     },
     {
