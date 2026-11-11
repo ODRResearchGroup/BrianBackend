@@ -136,3 +136,66 @@ Example:
   "smellWalkId": "walk-uuid"
 }
 ```
+
+## Live walk data (read API)
+
+Browser viewers such as
+[SensoryDataMaps](https://github.com/dkadish/SensoryDataMaps) read the walk
+timeseries that the mobile app writes to InfluxDB through these endpoints, so
+InfluxDB credentials stay on the backend. Both need an app session from
+`POST /api/session`, like the mobile write endpoints.
+
+`GET /api/live/walks?hours=24` lists walks with data in the last `hours` hours
+(1 to 720), most recently active first:
+
+```json
+{
+  "walks": [
+    {
+      "walkId": "walk-11-11-26-10-02-13-Brian-ABC123",
+      "deviceName": "Brian-ABC123",
+      "firstAt": 1762851733000,
+      "lastAt": 1762853533000,
+      "sensors": ["CH4", "CO", "TempC"]
+    }
+  ],
+  "serverTime": 1762853535000
+}
+```
+
+`GET /api/live/walks/:walkId/samples?since=<epoch ms>` returns one snapshot per
+5-second flush that is newer than `since` (default: the last 7 days), oldest
+first. Poll it with `since` set to the `time` of the newest snapshot you have.
+
+```json
+{
+  "samples": [
+    {
+      "time": 1762853533000,
+      "deviceName": "Brian-ABC123",
+      "latitude": 55.6091,
+      "longitude": 12.9945,
+      "accuracyM": 4.2,
+      "readings": { "CH4": 0.21, "CO": 0.08, "TempC": 22.4 }
+    }
+  ],
+  "serverTime": 1762853535000
+}
+```
+
+Configuration:
+
+- `CORS_ORIGINS`: comma-separated browser origins allowed to call
+  `/api/session` and `/api/live`, for example
+  `https://dkadish.github.io,http://localhost:5173`.
+- The endpoints query with InfluxQL through the v1-compatible `/query` API, so
+  the timeseries bucket must be mapped to a database (DBRP). InfluxDB 2.x and
+  Cloud (TSM) have a virtual mapping named after the bucket. On InfluxDB Cloud
+  Serverless, create one with
+  `influx v1 dbrp create --db <bucket> --rp autogen --bucket-id <id> --default`.
+  `INFLUX_QUERY_DATABASE` sets the database name if it differs from
+  `INFLUX_TIMESERIES_BUCKET`.
+- `INFLUX_TOKEN` needs read access to the timeseries bucket as well as write.
+
+`/api/session` issues a session to any caller, so anyone who knows the backend
+URL can read walk data, just as they can already write it.
