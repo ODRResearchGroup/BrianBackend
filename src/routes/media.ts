@@ -24,7 +24,9 @@ router.post(
       : annotationIdParam;
 
     if (!file) {
-      res.status(400).json({ error: "A media file is required in field 'media'" });
+      res
+        .status(400)
+        .json({ error: "A media file is required in field 'media'" });
       return;
     }
     if (!annotationId || !/^[a-zA-Z0-9_-]+$/.test(annotationId)) {
@@ -32,13 +34,17 @@ router.post(
       return;
     }
     if (!isSupportedMediaType(file.mimetype)) {
-      res.status(415).json({ error: `Unsupported media type: ${file.mimetype}` });
+      res
+        .status(415)
+        .json({ error: `Unsupported media type: ${file.mimetype}` });
       return;
     }
 
     try {
       const compressed = await compressMedia(file.buffer, file.mimetype);
-      const kind = compressed.contentType.startsWith("image/") ? "images" : "audio";
+      const kind = compressed.contentType.startsWith("image/")
+        ? "images"
+        : "audio";
       const key = `${kind}/${annotationId}/${randomUUID()}.${compressed.extension}`;
 
       await uploadMedia(key, compressed.body, compressed.contentType);
@@ -52,26 +58,13 @@ router.post(
     } catch (error) {
       console.error("Media processing/upload failed", error);
       res.status(502).json({
-        error: error instanceof Error ? error.message : "Media processing or upload failed",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Media processing or upload failed",
       });
     }
   },
 );
-
-router.get("/media", requireAuth, async (req, res: Response) => {
-  const key = typeof req.query.key === "string" ? req.query.key : "";
-  if (!key || key.length > 1024 || key.includes("..") || key.startsWith("/")) {
-    res.status(400).json({ error: "Invalid media key" });
-    return;
-  }
-
-  try {
-    const signedUrl = await signedMediaUrl(key);
-    res.redirect(302, signedUrl);
-  } catch (error) {
-    console.error("Media access URL generation failed", error);
-    res.status(502).json({ error: "Media access is unavailable" });
-  }
-});
 
 export default router;

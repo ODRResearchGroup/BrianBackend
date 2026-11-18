@@ -43,7 +43,8 @@ function validateInput(body: unknown): {
       typeof value.longitude !== "number")
   ) {
     return {
-      error: "recordingId and timestamp are required; latitude/longitude must be floats",
+      error:
+        "recordingId and timestamp are required; latitude/longitude must be floats",
     };
   }
 
@@ -62,91 +63,53 @@ function jsonValue(
     : (value as Prisma.InputJsonValue);
 }
 
-router.post(
-  "/annotations",
-  requireAuth,
-  async (req, res: Response) => {
-    const parsed = validateInput(req.body);
-    if (!parsed.value) {
-      res.status(400).json({ error: parsed.error });
-      return;
-    }
+router.post("/annotations", requireAuth, async (req, res: Response) => {
+  const parsed = validateInput(req.body);
+  if (!parsed.value) {
+    res.status(400).json({ error: parsed.error });
+    return;
+  }
 
-    console.log("saving annotation");
+  console.log("saving annotation");
 
-    const input = parsed.value;
-    try {
-      const annotation = await prisma.annotation.upsert({
-        where: { id: input.recordingId },
-        create: {
-          id: input.recordingId,
-          sensorReadings: jsonValue(input.sensorReadings ?? {}),
-          title: input.title ?? "",
-          note: input.note ?? "",
-          timestamp: new Date(input.timestamp),
-          latitude: input.latitude,
-          longitude: input.longitude,
-          photo: input.photo ?? null,
-          audio: input.audio ?? null,
-          deviceName: input.deviceName ?? null,
-          smellWalkId: input.smellWalkId ?? null,
-        },
-        update: {
-          sensorReadings: jsonValue(input.sensorReadings ?? {}),
-          title: input.title ?? "",
-          note: input.note ?? "",
-          timestamp: new Date(input.timestamp),
-          latitude: input.latitude,
-          longitude: input.longitude,
-          photo: input.photo ?? null,
-          audio: input.audio ?? null,
-          deviceName: input.deviceName ?? null,
-          smellWalkId: input.smellWalkId ?? null,
-        },
-      });
-
-      res.status(201).json({
-        annotation,
-      });
-    } catch (error) {
-      console.error("Failed to save annotation", error);
-      res.status(500).json({ error: "Failed to save annotation" });
-    }
-  },
-);
-
-router.get(
-  "/annotations/:annotationId",
-  requireAuth,
-  async (req, res: Response) => {
-    const annotationIdParam = req.params.annotationId;
-    const annotationId = Array.isArray(annotationIdParam)
-      ? annotationIdParam[0]
-      : annotationIdParam;
-    const annotation = await prisma.annotation.findUnique({
-      where: { id: annotationId },
+  const input = parsed.value;
+  try {
+    const annotation = await prisma.annotation.upsert({
+      where: { id: input.recordingId },
+      create: {
+        id: input.recordingId,
+        sensorReadings: jsonValue(input.sensorReadings ?? {}),
+        title: input.title ?? "",
+        note: input.note ?? "",
+        timestamp: new Date(input.timestamp),
+        latitude: input.latitude,
+        longitude: input.longitude,
+        photo: input.photo ?? null,
+        audio: input.audio ?? null,
+        deviceName: input.deviceName ?? null,
+        smellWalkId: input.smellWalkId ?? null,
+      },
+      update: {
+        sensorReadings: jsonValue(input.sensorReadings ?? {}),
+        title: input.title ?? "",
+        note: input.note ?? "",
+        timestamp: new Date(input.timestamp),
+        latitude: input.latitude,
+        longitude: input.longitude,
+        photo: input.photo ?? null,
+        audio: input.audio ?? null,
+        deviceName: input.deviceName ?? null,
+        smellWalkId: input.smellWalkId ?? null,
+      },
     });
 
-    if (!annotation) {
-      res.status(404).json({ error: "Annotation not found" });
-      return;
-    }
-
-    res.json({ annotation });
-  },
-);
-
-router.get(
-  "/annotations",
-  requireAuth,
-  async (_req, res: Response) => {
-    const annotations = await prisma.annotation.findMany({
-      orderBy: { timestamp: "desc" },
+    res.status(201).json({
+      annotation,
     });
-    res.json({
-      annotations,
-    });
-  },
-);
+  } catch (error) {
+    console.error("Failed to save annotation", error);
+    res.status(500).json({ error: "Failed to save annotation" });
+  }
+});
 
 export default router;
