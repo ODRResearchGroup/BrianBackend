@@ -10,6 +10,7 @@ export type Annotation = {
   photo: string | null;
   audio: string | null;
   timestamp: string;
+  installationId: string | null;
 };
 
 export type Filters = {

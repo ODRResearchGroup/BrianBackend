@@ -17,6 +17,7 @@ type AnnotationInput = {
   longitude?: number | null;
   deviceName?: string | null;
   smellWalkId?: string | null;
+  installationId?: string | null;
 };
 
 function isString(value: unknown): value is string {
@@ -88,6 +89,7 @@ router.post("/annotations", requireAuth, async (req, res: Response) => {
         audio: input.audio ?? null,
         deviceName: input.deviceName ?? null,
         smellWalkId: input.smellWalkId ?? null,
+        installationId: input.installationId ?? null,
       },
       update: {
         sensorReadings: jsonValue(input.sensorReadings ?? {}),
@@ -100,6 +102,7 @@ router.post("/annotations", requireAuth, async (req, res: Response) => {
         audio: input.audio ?? null,
         deviceName: input.deviceName ?? null,
         smellWalkId: input.smellWalkId ?? null,
+        installationId: input.installationId ?? null,
       },
     });
 

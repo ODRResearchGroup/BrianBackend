@@ -32,6 +32,8 @@ export function AnnotationCard({
         <dd>{annotation.deviceName || "—"}</dd>
         <dt>Smell walk</dt>
         <dd>{annotation.smellWalkId || "—"}</dd>
+        <dt>Installation ID</dt>
+        <dd>{annotation.installationId || "—"}</dd>
       </dl>
       <div className={styles.grid}>
         <pre>{JSON.stringify(annotation.sensorReadings, null, 2)}</pre>
