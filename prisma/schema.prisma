@@ -19,7 +19,7 @@ model Annotation {
   photo         String?
   audio         String?
   timestamp     DateTime
-  installationId String @default("")
+  installationId String? @default("")
 
   @@index([timestamp])
   @@index([smellWalkId])
